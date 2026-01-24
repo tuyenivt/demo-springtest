@@ -1,67 +1,24 @@
 package com.coloza.demo.springtest.repository;
 
+import com.coloza.demo.springtest.AbstractMongoIT;
 import com.coloza.demo.springtest.model.Review;
 import com.coloza.demo.springtest.model.ReviewEntry;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.mongodb.MongoDBContainer;
 
-import java.io.File;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-@Testcontainers
-@SpringBootTest
-class ReviewRepositoryTest {
-    @Container
-    private static MongoDBContainer mongo = new MongoDBContainer("mongo:8.2");
-
-    @DynamicPropertySource
-    static void mongoProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.data.mongodb.uri", mongo::getReplicaSetUrl);
-    }
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
+class ReviewRepositoryTest extends AbstractMongoIT {
 
     @Autowired
     private ReviewRepository repository;
 
-    /**
-     * Jackson ObjectMapper: used to load a JSON file into a list of Reviews
-     */
-    private final ObjectMapper mapper = new ObjectMapper();
-
-    /**
-     * The path to our Sample JSON file.
-     */
-    private static final File SAMPLE_JSON = Paths.get("src", "test", "resources", "data", "sample.json").toFile();
-
     @BeforeEach
-    void beforeEach() throws Exception {
-        // Deserialize our JSON file to an array of reviews
-        var objects = mapper.readValue(SAMPLE_JSON, Review[].class);
-
-        // Load each review into MongoDB
-        Arrays.stream(objects).forEach(mongoTemplate::save);
-    }
-
-    @AfterEach
-    void afterEach() {
-        // Drop the reviews collection so we can start fresh
-        mongoTemplate.dropCollection("Reviews");
+    void beforeEach() {
+        loadData("/data/review/sample.json", "Reviews");
     }
 
     @Test

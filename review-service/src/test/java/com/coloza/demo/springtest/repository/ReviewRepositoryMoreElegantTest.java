@@ -1,71 +1,24 @@
 package com.coloza.demo.springtest.repository;
 
+import com.coloza.demo.springtest.AbstractMongoIT;
 import com.coloza.demo.springtest.model.Review;
 import com.coloza.demo.springtest.model.ReviewEntry;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.mongodb.MongoDBContainer;
 
 import java.util.Date;
 import java.util.List;
 
-@Testcontainers
-@SpringBootTest
-class ReviewRepositoryMoreElegantTest {
-    @Container
-    private static MongoDBContainer mongo = new MongoDBContainer("mongo:8.2");
-    private static MongoClient client;
-    private static MongoDatabase database;
-    private final ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
-    @DynamicPropertySource
-    static void mongoProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.data.mongodb.uri", mongo::getReplicaSetUrl);
-    }
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
+class ReviewRepositoryMoreElegantTest extends AbstractMongoIT {
 
     @Autowired
     private ReviewRepository repository;
 
-    public MongoTemplate getMongoTemplate() {
-        return mongoTemplate;
-    }
-
-    @BeforeAll
-    static void setUpAll() {
-        mongo.start();
-        client = MongoClients.create(mongo.getReplicaSetUrl());
-        database = client.getDatabase("test");
-    }
-
     @BeforeEach
-    void loadInitialData() throws Exception {
-        database.drop();
-        try (var is = getClass().getResourceAsStream("/data/sample6.json")) {
-            if (is == null) throw new RuntimeException("sample6.json not found");
-            var documents = mapper.readValue(is, new TypeReference<List<Document>>() {
-            });
-            database.getCollection("Reviews").insertMany(documents);
-        }
+    void beforeEach() {
+        loadData("/data/review/sample6.json", "Reviews");
     }
 
     @Test

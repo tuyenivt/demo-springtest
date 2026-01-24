@@ -1,31 +1,17 @@
 package com.coloza.demo.springtest.integration;
 
+import com.coloza.demo.springtest.AbstractMongoIT;
 import com.coloza.demo.springtest.model.Review;
 import com.coloza.demo.springtest.model.ReviewEntry;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.mongodb.MongoDBContainer;
 
 import java.util.List;
 
@@ -35,35 +21,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Testcontainers
-@SpringBootTest
 @AutoConfigureMockMvc
-class ReviewServiceIntegrationTest {
-    @Container
-    private static MongoDBContainer mongo = new MongoDBContainer("mongo:8.2");
-    private static MongoClient client;
-    private static MongoDatabase database;
-    private final ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
-    @DynamicPropertySource
-    static void mongoProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.data.mongodb.uri", mongo::getReplicaSetUrl);
-    }
+class ReviewServiceIntegrationTest extends AbstractMongoIT {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
-    /**
-     * MongoSpringExtension method that returns the autowired MongoTemplate to use for MongoDB interactions.
-     *
-     * @return The autowired MongoTemplate instance.
-     */
-    public MongoTemplate getMongoTemplate() {
-        return mongoTemplate;
-    }
 
     static String asJsonString(final Object obj) {
         try {
@@ -73,22 +35,9 @@ class ReviewServiceIntegrationTest {
         }
     }
 
-    @BeforeAll
-    static void setUpAll() {
-        mongo.start();
-        client = MongoClients.create(mongo.getReplicaSetUrl());
-        database = client.getDatabase("test");
-    }
-
     @BeforeEach
-    void loadInitialData() throws Exception {
-        database.drop();
-        try (var is = getClass().getResourceAsStream("/data/sample.json")) {
-            if (is == null) throw new RuntimeException("sample.json not found");
-            var documents = mapper.readValue(is, new TypeReference<List<Document>>() {
-            });
-            database.getCollection("Reviews").insertMany(documents);
-        }
+    void beforeEach() {
+        loadData("/data/review/sample.json", "Reviews");
     }
 
     @Test
