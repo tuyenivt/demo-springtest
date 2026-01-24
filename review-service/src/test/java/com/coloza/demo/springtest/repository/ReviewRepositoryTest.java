@@ -12,9 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.mongodb.MongoDBContainer;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -26,7 +26,7 @@ import java.util.List;
 @SpringBootTest
 class ReviewRepositoryTest {
     @Container
-    static MongoDBContainer mongo = new MongoDBContainer("mongo:8.2");
+    private static MongoDBContainer mongo = new MongoDBContainer("mongo:8.2");
 
     @DynamicPropertySource
     static void mongoProperties(DynamicPropertyRegistry registry) {
