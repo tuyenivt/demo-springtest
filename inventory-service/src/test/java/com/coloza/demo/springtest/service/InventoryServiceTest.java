@@ -49,27 +49,49 @@ class InventoryServiceTest {
 
     @Test
     void testGetInventoryRecordSuccess() {
-        var record = service.getInventoryRecord(1);
-        Assertions.assertTrue(record.isPresent(), "InventoryRecord should be present");
+        var inventoryRecord = service.getInventoryRecord(1);
+        Assertions.assertTrue(inventoryRecord.isPresent(), "InventoryRecord should be present");
 
         // Validate the contents of the response
-        Assertions.assertEquals(500, record.get().getQuantity().intValue(),
+        Assertions.assertEquals(500, inventoryRecord.get().getQuantity().intValue(),
                 "The quantity should be 500");
     }
 
     @Test
     void testGetInventoryRecordNotFound() {
-        var record = service.getInventoryRecord(2);
-        Assertions.assertFalse(record.isPresent(), "InventoryRecord should not be present");
+        var inventoryRecord = service.getInventoryRecord(2);
+        Assertions.assertFalse(inventoryRecord.isPresent(), "InventoryRecord should not be present");
     }
 
     @Test
     void testPurchaseProductSuccess() {
-        var record = service.purchaseProduct(1, 5);
-        Assertions.assertTrue(record.isPresent(), "InventoryRecord should be present");
+        var inventoryRecord = service.purchaseProduct(1, 5);
+        Assertions.assertTrue(inventoryRecord.isPresent(), "InventoryRecord should be present");
 
         // Validate the contents of the response
-        Assertions.assertEquals(495, record.get().getQuantity().intValue(),
+        Assertions.assertEquals(495, inventoryRecord.get().getQuantity().intValue(),
                 "The quantity should be 495");
+    }
+
+    @Test
+    void testGetInventoryRecord_ServiceUnavailable_ReturnsEmpty() {
+        wireMockServer.stubFor(get(urlEqualTo("/inventory/503"))
+                .willReturn(aResponse().withStatus(503)));
+
+        var inventoryRecord = service.getInventoryRecord(503);
+        Assertions.assertFalse(inventoryRecord.isPresent(), "InventoryRecord should not be present on 503");
+    }
+
+    @Test
+    void testGetInventoryRecord_Timeout_ReturnsEmpty() {
+        wireMockServer.stubFor(get(urlEqualTo("/inventory/timeout"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBodyFile("json/inventory-response.json")
+                        .withFixedDelay(5000)));
+
+        var inventoryRecord = service.getInventoryRecord(999);
+        Assertions.assertFalse(inventoryRecord.isPresent(), "InventoryRecord should not be present on timeout");
     }
 }

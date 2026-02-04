@@ -52,7 +52,12 @@ This is a **gateway/facade service** - no database, just proxies to external ser
 
 ## Error Handling
 
-Service returns `Optional.empty()` on any `HttpClientErrorException` - controller converts to 404.
+Service returns `Optional.empty()` on:
+- `HttpClientErrorException` (4xx errors)
+- `HttpServerErrorException` (5xx errors)
+- `ResourceAccessException` (timeouts, connection errors)
+
+Controller converts empty Optional to 404 response.
 
 ## Notes for Future Work
 

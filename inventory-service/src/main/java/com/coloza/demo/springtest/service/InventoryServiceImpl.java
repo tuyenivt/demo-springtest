@@ -5,6 +5,8 @@ import com.coloza.demo.springtest.model.PurchaseRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
@@ -23,7 +25,7 @@ public class InventoryServiceImpl implements InventoryService {
         try {
             // Get the inventory record for the specified product ID
             return Optional.ofNullable(restTemplate.getForObject(baseUrl + "/" + productId, InventoryRecord.class));
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException | ResourceAccessException e) {
             // An exception occurred, so return Optional.empty()
             return Optional.empty();
         }
@@ -34,7 +36,7 @@ public class InventoryServiceImpl implements InventoryService {
         try {
             return Optional.ofNullable(restTemplate.postForObject(baseUrl + "/" + productId + "/purchaseRecord",
                     new PurchaseRecord(productId, quantity), InventoryRecord.class));
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException | ResourceAccessException e) {
             return Optional.empty();
         }
     }

@@ -33,8 +33,7 @@ class InventoryControllerTest {
     @DisplayName("GET /inventory/1 - Success")
     void testGetInventoryByIdSuccess() throws Exception {
         // Set up our mocked service
-        InventoryRecord mockRecord = new InventoryRecord(1, 10,
-                "Product 1", "Great Products");
+        var mockRecord = new InventoryRecord(1, 10, "Product 1", "Great Products");
         doReturn(Optional.of(mockRecord)).when(service).getInventoryRecord(1);
 
         // Execute the GET request
@@ -55,6 +54,13 @@ class InventoryControllerTest {
     }
 
     @Test
+    @DisplayName("GET /inventory/abc - Invalid ID format returns 400")
+    void testGetInventoryByIdInvalidFormat() throws Exception {
+        mockMvc.perform(get("/inventory/abc"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     @DisplayName("GET /inventory/2 - Not Found")
     void testGetInventoryByIdNotFound() throws Exception {
         // Set up our mocked service
@@ -68,11 +74,21 @@ class InventoryControllerTest {
     }
 
     @Test
+    @DisplayName("POST /inventory/purchase-record - Not Found when product doesn't exist")
+    void testCreatePurchaseRecordNotFound() throws Exception {
+        doReturn(Optional.empty()).when(service).purchaseProduct(999, 5);
+
+        mockMvc.perform(post("/inventory/purchase-record")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(new PurchaseRecord(999, 5))))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     @DisplayName("POST /inventory/purchase-record - Success")
     void testCreatePurchaseRecord() throws Exception {
         // Setup mocked service
-        InventoryRecord mockRecord = new InventoryRecord(1, 10,
-                "Product 1", "Great Products");
+        var mockRecord = new InventoryRecord(1, 10, "Product 1", "Great Products");
         doReturn(Optional.of(mockRecord)).when(service).purchaseProduct(1, 5);
 
 
