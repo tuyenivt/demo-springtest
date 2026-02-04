@@ -39,7 +39,7 @@ MongoDB (Reviews collection)
 ## Testing
 
 - **Unit tests**: Mocked with `@MockitoBean`
-- **Integration tests**: Real MongoDB via Testcontainers
+- **Integration tests**: Real MongoDB via Testcontainers (covers all CRUD endpoints)
 - **Base class**: `AbstractMongoIT` provides `loadData()` helper
 - **Test data**: `src/test/resources/data/review/sample.json`
 

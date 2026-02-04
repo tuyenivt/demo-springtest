@@ -17,8 +17,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -128,5 +127,22 @@ class ReviewServiceIntegrationTest extends AbstractMongoIT {
                 .andExpect(jsonPath("$.entries[1].username", is("test-user")))
                 .andExpect(jsonPath("$.entries[1].review", is("Great product")))
                 .andExpect(jsonPath("$.entries[1].date", any(String.class)));
+    }
+
+    @Test
+    @DisplayName("DELETE /review/1 - Success")
+    void deleteReview_shouldReturn200() throws Exception {
+        mockMvc.perform(delete("/review/{id}", 1))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/review/{id}", 1))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("DELETE /review/99 - Not Found")
+    void deleteReview_shouldReturn404WhenNotFound() throws Exception {
+        mockMvc.perform(delete("/review/{id}", 99))
+                .andExpect(status().isNotFound());
     }
 }

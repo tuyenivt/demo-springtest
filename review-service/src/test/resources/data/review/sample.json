@@ -4,7 +4,10 @@
     "productId": 1,
     "version": 1,
     "entries": [
-      {"username" : "user1", "review": "This is a review"}
+      {
+        "username": "user1",
+        "review": "This is a review"
+      }
     ]
   },
   {
@@ -12,9 +15,18 @@
     "productId": 2,
     "version": 7,
     "entries": [
-      {"username" : "user2", "review": "This is a review"},
-      {"username" : "user3", "review": "This is a another review"},
-      {"username" : "user4", "review": "This is a third review"}
+      {
+        "username": "user2",
+        "review": "This is a review"
+      },
+      {
+        "username": "user3",
+        "review": "This is a another review"
+      },
+      {
+        "username": "user4",
+        "review": "This is a third review"
+      }
     ]
   }
 ]
