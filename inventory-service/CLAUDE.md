@@ -1,4 +1,4 @@
-# CLAUDE.md - Inventory Service Memory
+# CLAUDE.md
 
 ## Quick Reference
 

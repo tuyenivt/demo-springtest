@@ -1,5 +1,6 @@
 # Review Service
 
+This project only focus on demo spring testing.
 A Spring Boot 4.0 microservice for managing product reviews with MongoDB persistence.
 
 ## Overview

@@ -1,4 +1,4 @@
-# CLAUDE.md - Product Service Memory
+# CLAUDE.md
 
 ## Quick Reference
 

@@ -1,5 +1,6 @@
 # Inventory Service
 
+This project only focus on demo spring testing.
 A Spring Boot 4 microservice that acts as a gateway/client to an external Inventory Management system.
 
 ## Overview

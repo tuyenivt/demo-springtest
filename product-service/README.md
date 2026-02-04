@@ -1,5 +1,6 @@
 # Product Service
 
+This project only focus on demo spring testing.
 A Spring Boot 4.0 microservice demonstrating RESTful CRUD operations for product management using Spring Data JDBC.
 
 ## Tech Stack

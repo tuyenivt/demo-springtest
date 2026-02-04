@@ -1,4 +1,4 @@
-# CLAUDE.md - Review Service Memory
+# CLAUDE.md
 
 ## Quick Reference
 
