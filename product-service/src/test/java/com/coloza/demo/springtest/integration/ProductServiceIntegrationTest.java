@@ -1,7 +1,7 @@
 package com.coloza.demo.springtest.integration;
 
 import com.coloza.demo.springtest.model.Product;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.junit5.DBUnitExtension;

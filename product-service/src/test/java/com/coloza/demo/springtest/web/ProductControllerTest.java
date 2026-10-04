@@ -2,7 +2,7 @@ package com.coloza.demo.springtest.web;
 
 import com.coloza.demo.springtest.model.Product;
 import com.coloza.demo.springtest.service.ProductService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

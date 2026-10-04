@@ -3,7 +3,7 @@ package com.coloza.demo.springtest.integration;
 import com.coloza.demo.springtest.AbstractMongoIT;
 import com.coloza.demo.springtest.model.Review;
 import com.coloza.demo.springtest.model.ReviewEntry;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

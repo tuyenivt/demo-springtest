@@ -31,13 +31,13 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Optional<Product> findById(Integer id) {
         try {
             var product = jdbcTemplate.queryForObject("SELECT * FROM products WHERE id = ?",
-                    new Object[]{id},
                     (rs, rowNum) -> Product.builder()
                             .id(rs.getInt("id"))
                             .name(rs.getString("name"))
                             .quantity(rs.getInt("quantity"))
                             .version(rs.getInt("version"))
-                            .build());
+                            .build(),
+                    id);
             return Optional.ofNullable(product);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
