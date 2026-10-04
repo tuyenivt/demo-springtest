@@ -1,7 +1,7 @@
 # Review Service
 
 This project only focus on demo spring testing.
-A Spring Boot 4.0 microservice for managing product reviews with MongoDB persistence.
+A Spring Boot 4 microservice for managing product reviews with MongoDB persistence.
 
 ## Overview
 
@@ -9,7 +9,7 @@ This service provides REST APIs for creating, reading, updating, and deleting pr
 
 ## Tech Stack
 
-- **Java 21+** with Spring Boot 4.0
+- **Java 25+** with Spring Boot 4.1
 - **Spring Data MongoDB** for data access
 - **MongoDB 8.x** as the database
 - **Lombok** for boilerplate reduction
@@ -71,7 +71,7 @@ review-service/
 ## Running the Service
 
 ### Prerequisites
-- Java 21+
+- Java 25+
 - MongoDB 8.x running locally or via Docker
 
 ### Build

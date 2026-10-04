@@ -48,7 +48,7 @@ This is a **gateway/facade service** - no database, just proxies to external ser
 
 - `spring-boot-starter-webmvc`
 - `lombok`
-- `wiremock-spring-boot:4.0.9` (test)
+- `wiremock-spring-boot:4.4.2` (test)
 
 ## Error Handling
 

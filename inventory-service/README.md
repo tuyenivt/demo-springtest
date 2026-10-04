@@ -9,11 +9,11 @@ This service provides REST endpoints for inventory management operations by prox
 
 ## Tech Stack
 
-- **Java 21+**
-- **Spring Boot 4.0**
+- **Java 25+**
+- **Spring Boot 4.1**
 - **Spring Web MVC**
 - **Lombok** - Boilerplate reduction
-- **WireMock 4.0.9** - HTTP mocking for tests
+- **WireMock 4.4** - HTTP mocking for tests
 
 ## Project Structure
 

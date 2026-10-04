@@ -1,12 +1,12 @@
 # Product Service
 
 This project only focus on demo spring testing.
-A Spring Boot 4.0 microservice demonstrating RESTful CRUD operations for product management using Spring Data JDBC.
+A Spring Boot 4 microservice demonstrating RESTful CRUD operations for product management using Spring Data JDBC.
 
 ## Tech Stack
 
-- **Java 21**
-- **Spring Boot 4.0.2**
+- **Java 25**
+- **Spring Boot 4.1**
 - **Spring Data JDBC** (not JPA/Hibernate)
 - **H2 Database** (in-memory for testing)
 - **Lombok** for boilerplate reduction

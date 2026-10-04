@@ -3,7 +3,7 @@
 ## Quick Reference
 
 **Package**: `com.coloza.demo.springtest`
-**Java**: 21 | **Spring Boot**: 4.0.2 | **Data Access**: Spring Data JDBC (not JPA)
+**Java**: 25 | **Spring Boot**: 4.1.1 | **Data Access**: Spring Data JDBC (not JPA)
 
 ## Key Files
 
